@@ -59,7 +59,7 @@ function MousePosition() {
         window.removeEventListener("pointermove", handleMove);
       };
     }
-  }, [position]);
+  }, []);
 
   return (
     <div className="space-y-5">
