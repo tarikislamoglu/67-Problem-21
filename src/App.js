@@ -1,6 +1,6 @@
 import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 import dynamic from "next/dynamic";
-const MousePosition = dynamic(() => import("../src/components/MousePosition"), {
+const MousePosition = dynamic(() => import("./components/MousePosition"), {
   ssr: false, // SSR'yi devre dışı bırakıyoruz
 });
 // Bileşenimiz mouse hareketlerini takip eder ve koordinatları ekrana yazdırır.
