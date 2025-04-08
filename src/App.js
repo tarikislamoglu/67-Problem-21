@@ -48,20 +48,17 @@ function MousePosition() {
   const [position, setPosition] = useState({ x: 0, y: 0 });
 
   useEffect(() => {
-    function handleMove(e) {
-      setPosition({ x: e.clientX, y: e.clientY });
-      console.log("Updating state");
-    }
     if (typeof window !== "undefined") {
-      window.addEventListener("pointermove", handleMove);
-    }
-
-    return () => {
-      console.log("Unmounted");
-      if (typeof window !== "undefined") {
-        window.removeEventListener("pointermove", handleMove);
+      function handleMove(e) {
+        setPosition({ x: e.clientX, y: e.clientY });
+        console.log("Updating state");
       }
-    };
+      window.addEventListener("pointermove", handleMove);
+      return () => {
+        console.log("Unmounted");
+        window.removeEventListener("pointermove", handleMove);
+      };
+    }
   }, [position]);
 
   return (
