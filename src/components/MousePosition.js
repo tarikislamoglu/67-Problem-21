@@ -1,19 +1,26 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+
 function MousePosition() {
   const [position, setPosition] = useState({ x: 0, y: 0 });
 
+  const animationFrame = useRef(null);
+
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      const handleMove = (e) => {
+    if (typeof window === "undefined") return;
+
+    const handleMove = (e) => {
+      if (animationFrame.current) cancelAnimationFrame(animationFrame.current);
+      animationFrame.current = requestAnimationFrame(() => {
         setPosition({ x: e.clientX, y: e.clientY });
-        console.log("Updating state");
-      };
-      window.addEventListener("pointermove", handleMove);
-      return () => {
-        console.log("Unmounted");
-        window.removeEventListener("pointermove", handleMove);
-      };
-    }
+      });
+    };
+
+    window.addEventListener("pointermove", handleMove);
+
+    return () => {
+      window.removeEventListener("pointermove", handleMove);
+      if (animationFrame.current) cancelAnimationFrame(animationFrame.current);
+    };
   }, []);
 
   return (
